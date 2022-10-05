@@ -48,4 +48,16 @@ public class PizzaController : Controller
         
         return View(pizza);
     }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+    
+    [HttpPost]
+    public IActionResult Create(Pizza pizza)
+    {
+        return View("Index");
+    }
 }
