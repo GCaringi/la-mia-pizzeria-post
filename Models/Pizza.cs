@@ -11,6 +11,7 @@ public class Pizza
     public string Name { get; set; }
     [Column(TypeName = "text")]
     [Required(ErrorMessage = "Il campo è obbligatorio")]
+    [RegularExpression(@"(\w+\W){4,}\w+", ErrorMessage = "Inserisci almeno 5 parole")]
     public string Description { get; set; }
     [Required(ErrorMessage = "Il campo è obbligatorio")]
     public string Image { get; set; }
