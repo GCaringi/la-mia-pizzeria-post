@@ -1,63 +1,54 @@
-﻿using la_mia_pizzeria_post.Models;
+﻿using la_mia_pizzeria_post.Context;
+using la_mia_pizzeria_post.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace la_mia_pizzeria_post.Controllers;
 
 public class PizzaController : Controller
 {
-    
-    
-    private readonly List<Pizza> _pizzas = new()
-    {
-        new Pizza
-        {
-            Id = 1, Name = "Margherita", Description = "Pomodoro Mozzarella", Image = "margherita.png", Price = 4.00m
-        },
-        new Pizza
-        {
-            Id = 2, Name = "Diavola", Description = "Margherita + Salame", Image = "diavola.png", Price = 7.00m
-        },
-        new Pizza
-        {
-            Id = 3, Name = "Provola", Description = "Bianca con Provola", Image = "provola.png", Price = 6.00m
-        },
-        new Pizza
-        {
-            Id = 4, Name = "Paperino", Description = "Bianca con Patatine", Image = "paperino.png", Price = 9.00m
-        },
-        new Pizza
-        {
-            Id = 5, Name = "Romanina", Description = "Rossa aglio origano", Image = "romanina.png", Price = 6.00m
-        }
-
-    };
-
     public IActionResult Index()
     {
-        return View(_pizzas);
+        List<Pizza> pizzas = new();
+        using (PizzaContext db = new PizzaContext())
+        {
+            pizzas = db.Pizzas.ToList();
+        }
+        return View(pizzas);
     }
 
     public IActionResult ShowById(int id)
     {
-        Pizza? pizza = _pizzas.Find(x => x.Id == id);
-        
-        if (pizza == null)
+        Pizza? pizza = new();
+        using (var db = new PizzaContext())
         {
-            return View("Error");
+            pizza = db.Pizzas.FirstOrDefault(x => x.Id == id);
         }
-        
+
         return View(pizza);
     }
-
-    [HttpGet]
+    
     public IActionResult Create()
     {
         return View();
     }
     
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Create(Pizza pizza)
     {
-        return View("Index");
+        if (!ModelState.IsValid)
+        {
+            return View("Create",pizza);
+        }
+
+        using (var db = new PizzaContext())
+        {
+            db.Pizzas.Add(pizza);
+            
+            db.SaveChanges();
+        }
+        return RedirectToAction("Index");
+        
     }
 }

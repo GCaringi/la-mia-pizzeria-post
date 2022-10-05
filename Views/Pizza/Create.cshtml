@@ -4,26 +4,26 @@
 }
 
 <div>
-    <form method="POST" asp-controller="Pizza" asp-action="Create">
+    <form method="post" asp-action="Create">
         @Html.AntiForgeryToken()
         <div class="mb-3">
-            <label for="name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="name">
+            <label asp-for="Name" for="name" class="form-label">Nome</label>
+            <input asp-for="Name" type="text" class="form-control" id="name">
             <span class = "text-danger" asp-validation-for="Name"></span>
         </div>
         <div class="mb-3">
-            <label for="description" class="form-label">Descrizione</label>
-            <textarea class="form-control" id="description"></textarea>
+            <label asp-for="Description" for="description" class="form-label">Descrizione</label>
+            <textarea asp-for="Description" class="form-control" id="description"></textarea>
             <span class = "text-danger" asp-validation-for="Description"></span>
         </div>
         <div class="mb-3">
-            <label for="image" class="form-label">Immagine</label>
-            <input type="text" class="form-control" id="image">
+            <label asp-for="Image" for="image" class="form-label">Immagine</label>
+            <input asp-for="Image" type="text" class="form-control" id="image">
             <span class = "text-danger" asp-validation-for="Image"></span>
         </div>
         <div class="mb-3">
-            <label for="price" class="form-label">Prezzo</label>
-            <input type="number" class="form-control" id="price">
+            <label asp-for="Price" for="price" class="form-label">Prezzo</label>
+            <input asp-for="Price" type="number" class="form-control" id="price" step=".01">
             <span class = "text-danger" asp-validation-for="Price"></span>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
