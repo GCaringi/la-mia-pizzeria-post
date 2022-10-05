@@ -15,5 +15,6 @@ public class Pizza
     [Required(ErrorMessage = "Il campo è obbligatorio")]
     public string? Image { get; set; }
     [Required(ErrorMessage = "Il campo è obbligatorio")]
+    [Column(TypeName = "decimal(8,2)")]
     public decimal Price { get; set; }
 }
